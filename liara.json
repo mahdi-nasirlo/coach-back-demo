@@ -1,0 +1,16 @@
+{
+    "platform": "laravel",
+    "app": "coach-back",
+    "laravel": {
+        "phpVersion": "8.2"
+    },
+    "arg": [
+        "php artisan migrate:fresh --seed"
+    ],
+    "disks": [
+        {
+            "name": "sqlite",
+            "mountTo": "/var/www/html/database/sqlite"
+        }
+    ]
+}
