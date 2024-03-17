@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CoachController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +27,17 @@ Route::prefix('/auth')
 
         Route::post("/login", [AuthController::class, 'Login']);
         Route::post("/register", [AuthController::class, 'Register']);
+
+    });
+
+Route::prefix('coach')
+    ->name('coach.')
+    ->group(function () {
+
+        Route::post('/register', [CoachController::class, 'register'])
+//            ->middleware('auth:sanctum')
+            ->name('register');
+
+//        Route::get('/getPage', [CoachController::class, 'index'])->name('getPage');
 
     });
