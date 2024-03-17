@@ -14,4 +14,13 @@ trait ApiResponseHelper
             "data" => $data
         ]);
     }
+
+    public function response(bool $success, $data = [], ?string $message = null): JsonResponse
+    {
+        return response()->json([
+            "success" => $success,
+            "message" => $message,
+            "data" => $data
+        ]);
+    }
 }
