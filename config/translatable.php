@@ -39,7 +39,7 @@ return [
     | and never fallback to the translator one.
     |
     */
-    'locale' => "fa",
+    'locale' => "en",
 
     /*
     |--------------------------------------------------------------------------

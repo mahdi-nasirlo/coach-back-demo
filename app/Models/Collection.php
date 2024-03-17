@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,8 @@ use Kalnoy\Nestedset\NodeTrait;
 
 /**
  * @property int $id
+ * @property string $name
+ * @property ?string $description
  * @property int $collection_group_id
  * @property-read  int $_lft
  * @property-read  int $_rgt
@@ -25,8 +28,10 @@ use Kalnoy\Nestedset\NodeTrait;
 class Collection extends Model
 {
 
-    use NodeTrait;
-    
+    use NodeTrait, Translatable;
+
+    public array $translatedAttributes = ["name", "description"];
+
     protected $casts = [
         'attribute_data' => "json",
     ];

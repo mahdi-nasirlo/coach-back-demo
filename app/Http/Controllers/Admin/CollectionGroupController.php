@@ -7,6 +7,7 @@ use App\Models\Attribute\Attribute;
 use App\Models\Attribute\AttributeGroup;
 use App\Models\CollectionGroup;
 use App\Services\CollectionGroupService;
+use Astrotomic\Translatable\Validation\RuleFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -22,10 +23,12 @@ class CollectionGroupController extends Controller
      */
     public function store(Request $request, CollectionGroupService $collectionGroupService): JsonResponse
     {
-        $validate = $request->validate([
-            "name" => "required|string|min:3",
+        $rules = RuleFactory::make([
+            "%name%" => "required|string|min:3",
             "handle" => "required|string|min:3"
         ]);
+
+        $validate = $request->validate($rules);
 
         $create = CollectionGroup::query()->create($validate);
 

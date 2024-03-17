@@ -15,7 +15,7 @@ class CreateCollectionsTable extends Migration
             $table->foreignId('collection_group_id')->constrained('collection_groups');
             $table->nestedSet();
             $table->string('type')->default('static')->index();
-            $table->json('attribute_data');
+//            $table->json('attribute_data')->;
             $table->string('sort')->default('custom')->index();
             $table->timestamps();
             $table->softDeletes();

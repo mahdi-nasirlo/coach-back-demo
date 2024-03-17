@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Store\Collection;
+use App\Models\Collection;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class CollectionService

@@ -13,8 +13,17 @@ return new class extends Migration
     {
         Schema::create('collection_translations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('collection_id')->constrained('collections');
+
+            $table
+                ->foreignId('collection_id')
+                ->constrained('collections')
+                ->cascadeOnDelete();
+
             $table->string('locale')->index();
+            $table->string("name");
+            $table->text("description")->nullable();
+
+            $table->unique(['collection_id', 'locale']);
         });
     }
 

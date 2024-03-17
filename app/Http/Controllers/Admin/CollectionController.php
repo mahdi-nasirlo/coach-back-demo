@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Collection;
 use App\Services\CollectionService;
+use Astrotomic\Translatable\Validation\RuleFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -39,22 +40,27 @@ class CollectionController extends Controller
     }
 
     /**
-     * @LRDparam name required|string|min:3
+     * @LRDparam fa.name required|string|min:3
+     * @LRDparam fa.description nullable|string|min:3
+     * @LRDparam en.name required|string|min:3
+     * @LRDparam en.description nullable|string|min:3
      * @LRDparam collection_group_id required|exists:collection_groups,id
      * @LRDparam image nullable|string|max:256
      * @LRDparam desc nullable|string
      */
     public function store(Request $request, CollectionService $collectionService): JsonResponse
     {
-        $validate = $request->validate([
-            "name" => "required|string|min:3|max:125",
-            "desc" => "nullable|string",
+        $rules = RuleFactory::make([
+            "%name%" => "required|string|min:3|max:125",
+            "%description%" => "nullable|string",
             "collection_group_id" => "required|exists:collection_groups,id",
             "image" => "nullable|string|max:256",
             "parent_id" => "nullable|exists:collections,id",
         ]);
 
-        Collection::create($validate);
+        $validate = $request->validate($rules);
+
+        Collection::query()->create($validate);
 
         $collection = $collectionService->getCollectionWithChild(
             collection_id: $request->has("parent_id") ? $validate["parent_id"] : null,
