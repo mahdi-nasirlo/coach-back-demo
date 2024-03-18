@@ -35,7 +35,7 @@ Route::prefix('coach')
     ->group(function () {
 
         Route::post('/register', [CoachController::class, 'register'])
-//            ->middleware('auth:sanctum')
+            ->middleware('auth:sanctum')
             ->name('register');
 
 //        Route::get('/getPage', [CoachController::class, 'index'])->name('getPage');

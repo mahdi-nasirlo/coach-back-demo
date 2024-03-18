@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Enums\CoachStatusEnum;
-use App\Http\Requests\RegisterCoachRequest;
+use App\Http\Controllers\Controller;
 use App\Models\Coach;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CoachController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        $coaches = Coach::query()->paginate();
+
+        return $this->respondWithSuccess($coaches);
     }
 
     /**
@@ -49,16 +47,4 @@ class CoachController extends Controller
     {
         //
     }
-
-    public function register(RegisterCoachRequest $request): JsonResponse
-    {
-        $validated = $request->validated();
-        $validated["status"] = CoachStatusEnum::UNDONE;
-        $validated["user_id"] = 1;
-
-        auth()->user()->coach()->create($validated);
-
-        return $this->respondWithSuccess('your registration successfully');
-    }
-
 }
