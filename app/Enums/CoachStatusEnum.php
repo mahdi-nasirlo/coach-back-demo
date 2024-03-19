@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use App\Models\Coach;
 use App\Traits\RandomEnum;
 use App\Traits\ReverseCases;
 
@@ -16,4 +17,9 @@ enum CoachStatusEnum: int
     case REJECTED = 3;
     case ACTIVE = 4;
     case INACTIVE = 5;
+
+    public static function isUndone(Coach $coach): bool
+    {
+        return $coach->status == self::UNDONE->value;
+    }
 }

@@ -19,7 +19,7 @@ trait ApiResponseHelper
     {
         return response()->json([
             "success" => $success,
-            "message" => $message,
+            "message" => $message ?? "successfully operation",
             "data" => $data
         ]);
     }

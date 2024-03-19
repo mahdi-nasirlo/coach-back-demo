@@ -5,6 +5,9 @@ namespace App\Models;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int status
+ */
 class Coach extends Model
 {
     use Translatable;

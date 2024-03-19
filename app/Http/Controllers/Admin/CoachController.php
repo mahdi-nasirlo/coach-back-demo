@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\CoachStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Coach;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CoachController extends Controller
 {
@@ -29,7 +31,13 @@ class CoachController extends Controller
      */
     public function show(Coach $coach)
     {
-        return $this->respondWithSuccess($coach);
+        if (CoachStatusEnum::isUndone($coach)) {
+
+            $coach->update(["status" => CoachStatusEnum::PENDING]);
+
+        }
+
+        return $this->respondWithSuccess($coach, message: $coach->status == CoachStatusEnum::UNDONE);
     }
 
     /**
@@ -37,7 +45,13 @@ class CoachController extends Controller
      */
     public function update(Request $request, Coach $coach)
     {
-        //
+        $validated = $request->validate([
+            "status" => Rule::in([CoachStatusEnum::ACCEPTED->value, CoachStatusEnum::REJECTED->value])
+        ]);
+
+        $update = $coach->update($validated);
+
+        return $this->response(success: $update);
     }
 
     /**
