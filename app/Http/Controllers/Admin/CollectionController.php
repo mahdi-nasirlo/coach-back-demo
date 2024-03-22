@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Collection;
 use App\Services\CollectionService;
 use Astrotomic\Translatable\Validation\RuleFactory;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -36,11 +35,11 @@ class CollectionController extends Controller
         $validate = $request->validate([
             "collection_group_id" => "nullable|exists:collection_groups,id"
         ]);
-        
-        $collection = Collection::query()->select(["id", "name", "collection_group_id"])
-            ->when($validate["collection_group_id"], fn(Builder $builder) => $builder
+
+        $collection = Collection::query()
+            ->when($validate["collection_group_id"], fn($builder) => $builder
                 ->where("collection_group_id", $request->input("collection_group_id")))
-            ->with(["group:id,name"])
+            ->with(["group"])
             ->get();
 
         return $this->respondWithSuccess($collection);

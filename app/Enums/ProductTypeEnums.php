@@ -12,4 +12,6 @@ enum ProductTypeEnums: string
     case PRODUCT = "product";
     case SERVICE = "service";
 
+    case  MEET = "meet";
+
 }

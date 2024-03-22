@@ -15,8 +15,7 @@ enum CoachStatusEnum: int
     case PENDING = 1;
     case ACCEPTED = 2;
     case REJECTED = 3;
-    case ACTIVE = 4;
-    case INACTIVE = 5;
+    case INACTIVE = 4;
 
     public static function isUndone(Coach $coach): bool
     {

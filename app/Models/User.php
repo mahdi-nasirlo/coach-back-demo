@@ -4,13 +4,14 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
- * @property mixed $coach
+ * @property int $id
  */
 class User extends Authenticatable
 {
@@ -50,4 +51,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Coach::class);
     }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
+
+//    protected static function newFactory(): string
+//    {
+//        return UserFactory::class;
+//    }
 }

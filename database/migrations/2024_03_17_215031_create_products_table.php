@@ -17,13 +17,14 @@ return new class extends Migration
 //            $table->foreignId('brand_id')
 //                ->nullable()
 //                ->constrained('brands');
+            $table->foreignId('user_id')
+                ->constrained('users');
             $table->string('status')->index();
             $table->enum("product_type", ProductTypeEnums::values());
-            $table->json('attribute_data')->nullable();
             $table->timestamps();
         });
     }
-
+ 
     /**
      * Reverse the migrations.
      */

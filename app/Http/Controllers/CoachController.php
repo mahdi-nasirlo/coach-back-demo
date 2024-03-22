@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterCoachRequest;
 use App\Models\Coach;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CoachController extends Controller
 {
@@ -54,9 +55,9 @@ class CoachController extends Controller
     {
         $validated = $request->validated();
         $validated["status"] = CoachStatusEnum::UNDONE;
-        $validated["user_id"] = 1;
+        $validated["user_id"] = Auth::user()->id;
 
-        auth()->user()->coach()->create($validated);
+        Coach::query()->create($validated);
 
         return $this->respondWithSuccess('your registration successfully');
     }
