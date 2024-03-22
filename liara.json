@@ -11,6 +11,10 @@
         {
             "name": "sqlite",
             "mountTo": "/var/www/html/database/sqlite"
+        },
+        {
+            "name": "files",
+            "mountTo": "/var/www/html/storage/app/public/sqlite"
         }
     ]
 }
