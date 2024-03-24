@@ -26,7 +26,7 @@ class FileManagementController extends Controller
             'filename' => $fileName
         ]);
 
-        return $this->respondWithSuccess(["key" => "/tmp_file/$time"]);
+        return $this->respondWithSuccess(["key" => $time]);
     }
 
     public function fetch(Request $request, string $filename)
