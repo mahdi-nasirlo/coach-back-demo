@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\CoachStatusEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CoachCreateRequest;
 use App\Models\Coach;
+use App\Services\MeetingService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -21,9 +23,22 @@ class CoachController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CoachCreateRequest $request, MeetingService $meetingService)
     {
-        //
+        $coachData = $request->only([
+            'name',
+            'phone_number',
+            'about_me',
+            'resume',
+            'job_experience',
+            'education_record'
+        ]);
+
+        auth()->user()->coach->update($coachData);
+
+        $meetingService->updateVariants($request->input("pricing"));
+
+        return $this->respondWithSuccess();
     }
 
     /**

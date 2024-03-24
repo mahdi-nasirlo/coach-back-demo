@@ -7,8 +7,9 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
-class MeetingCreateRequest extends FormRequest
+class CoachCreateRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -26,7 +27,20 @@ class MeetingCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "collection_id" => "required|exists:collections,id",
+            "profile_image" => "required|numeric|exists:temporary_files,folder",
+            "name" => "required|string|max:125",
+            'phone_number' => [
+                'required',
+                Rule::unique("coaches", "phone_number")
+                    ->ignore(auth()->user()->coach->id),
+                'regex:/^09(1[0-93[1-92[1-9])-?[0-9]{3}-?[0-9]{4}$/i'
+            ],
+            "about_me" => 'required|string|min:24',
+            "pricing.*.collection_id" => "required|numeric|exists:collections,id",
+            "pricing.*.price" => "required|numeric",
+            "resume" => "nullable|string|min:12",
+            "job_experience" => "nullable|string|min:12",
+            "education_record" => "nullable|string|min:12",
         ];
     }
 

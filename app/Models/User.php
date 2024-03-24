@@ -12,6 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 /**
  * @property int $id
+ * @property Coach $coach
  */
 class User extends Authenticatable
 {

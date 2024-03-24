@@ -33,7 +33,7 @@ class RegisterCoachRequest extends FormRequest
             'phone_number' => [
                 'required',
                 'unique:coaches,phone_number',
-                'regex:/^09(1[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}/i'
+                'regex:/^09(1[0-93[1-92[1-9])-?[0-9]{3}-?[0-9]{4}$/i'
             ],
             'about_me' => 'required|string|min:24',
             'resume_file' => 'nullable|string'

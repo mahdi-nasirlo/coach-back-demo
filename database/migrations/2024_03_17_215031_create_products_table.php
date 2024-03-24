@@ -21,10 +21,11 @@ return new class extends Migration
                 ->constrained('users');
             $table->string('status')->index();
             $table->enum("product_type", ProductTypeEnums::values());
+            $table->softDeletes();
             $table->timestamps();
         });
     }
- 
+
     /**
      * Reverse the migrations.
      */
