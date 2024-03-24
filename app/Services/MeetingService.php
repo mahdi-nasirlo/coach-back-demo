@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\ProductStatusEnums;
 use App\Enums\ProductTypeEnums;
+use App\Models\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -39,13 +40,11 @@ class MeetingService
 
                 $price = [
                     "price" => $value["price"],
+                    "attribute_data" => ["name" => Collection::query()->find($value["collection_id"])->name]
                 ];
 
-//                $variants = new ProductVariant();
-//                $variants->shippable = false;
-//                $variants->product_id = $product->id;
-//                $variants->save();
                 $product->prices()->create($price);
+                $product->collections()->attach($value["collection_id"]);
             }
 
         });

@@ -16,6 +16,7 @@ return new class extends Migration
 //            $table->foreignId('customer_group_id')->nullable()->constrained($this->prefix.'customer_groups');
 //            $table->foreignId('currency_id')->nullable()->constrained($this->prefix.'currencies');
             $table->morphs('priceable');
+            $table->json('attribute_data')->nullable();
             $table->integer('price')->unsigned()->index();
 //            $table->integer('compare_price')->unsigned()->nullable();
 //            $table->integer('tier')->default(1)->index();
