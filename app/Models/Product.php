@@ -7,11 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
+ * @property string $name
+ * @property string $description
+ * @property string $attribute_data
+ * @property ?string $sku
  * @property ProductStatusEnums $status
+ * @property bool $shippable
+ * @property int $stock
+ * @property string $purchasable
  * @property User $user
  */
 class Product extends Model
@@ -26,18 +34,11 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function variants(): HasMany
+    public function prices(): MorphMany
     {
-        return $this->hasMany(ProductVariant::class);
-    }
-
-    public function prices(): HasManyThrough
-    {
-        return $this->hasManyThrough(
+        return $this->morphMany(
             Price::class,
-            ProductVariant::class,
-            'product_id',
-            'priceable_id'
-        )->wherePriceableType(ProductVariant::class);
+            "priceable"
+        );
     }
 }

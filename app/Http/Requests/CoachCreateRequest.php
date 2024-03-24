@@ -27,7 +27,7 @@ class CoachCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "profile_image" => "required|numeric|exists:temporary_files,folder",
+            "profile_image" => "required|numeric", //|exists:temporary_files,folder
             "name" => "required|string|max:125",
             'phone_number' => [
                 'required',

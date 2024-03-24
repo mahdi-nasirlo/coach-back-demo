@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Enums\ProductStatusEnums;
 use App\Enums\ProductTypeEnums;
-use App\Models\ProductVariant;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -39,14 +38,14 @@ class MeetingService
             foreach ($validated as $key => $value) {
 
                 $price = [
-                    "price" => $value["price"]
+                    "price" => $value["price"],
                 ];
 
-                $variants = new ProductVariant();
-                $variants->shippable = false;
-                $variants->product_id = $product->id;
-                $variants->save();
-                $variants->prices()->create($price);
+//                $variants = new ProductVariant();
+//                $variants->shippable = false;
+//                $variants->product_id = $product->id;
+//                $variants->save();
+                $product->prices()->create($price);
             }
 
         });

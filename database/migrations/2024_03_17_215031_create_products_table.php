@@ -17,6 +17,10 @@ return new class extends Migration
 //            $table->foreignId('brand_id')
 //                ->nullable()
 //                ->constrained('brands');
+            $table->string('sku')->nullable()->index();
+            $table->boolean('shippable')->default(false)->index();
+            $table->integer('stock')->default(0)->index();
+            $table->string('purchasable')->default('always')->index();
             $table->foreignId('user_id')
                 ->constrained('users');
             $table->string('status')->index();
