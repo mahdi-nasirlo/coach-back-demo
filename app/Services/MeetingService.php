@@ -34,6 +34,13 @@ class MeetingService
 
         $product = $this->getMeetingRecord();
 
+        $prices = $product->prices()->count();
+
+        if ($prices) {
+            $product->prices()->delete();
+            $product->collections()->detach();
+        }
+
         DB::transaction(function () use ($validated, $product) {
 
             foreach ($validated as $key => $value) {

@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -58,8 +59,15 @@ class User extends Authenticatable
         return $this->hasMany(Product::class);
     }
 
-//    protected static function newFactory(): string
-//    {
-//        return UserFactory::class;
-//    }
+    public function prices(): HasManyThrough
+    {
+        return $this->hasManyThrough(related: Price::class, through: Product::class, secondKey: "priceable_id")
+            ->where("priceable_type", Product::class)
+            ->join("collection_product", "collection_product.product_id", "=", "products.id");
+    }
+
+    public function collections(): HasManyThrough
+    {
+        return $this->hasManyThrough(related: Collection::class, through: Product::class);
+    }
 }

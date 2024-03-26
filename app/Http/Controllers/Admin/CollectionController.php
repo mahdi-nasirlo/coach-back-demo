@@ -37,6 +37,7 @@ class CollectionController extends Controller
         ]);
 
         $collection = Collection::query()
+            ->withTranslation()
             ->when($validate["collection_group_id"], fn($builder) => $builder
                 ->where("collection_group_id", $request->input("collection_group_id")))
             ->with(["group"])

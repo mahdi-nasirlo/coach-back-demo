@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\CoachStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CoachCreateRequest;
+use App\Http\Resources\CoachInfoResource;
 use App\Models\Coach;
 use App\Services\MeetingService;
 use Illuminate\Http\Request;
@@ -52,7 +53,9 @@ class CoachController extends Controller
 
         }
 
-        return $this->respondWithSuccess($coach, message: $coach->status == CoachStatusEnum::UNDONE);
+        $coach->load(["user.prices", "user.collections"]);
+
+        return $this->respondWithSuccess(new CoachInfoResource($coach), message: $coach->status == CoachStatusEnum::UNDONE);
     }
 
     /**
