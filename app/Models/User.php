@@ -13,6 +13,8 @@ use Laravel\Sanctum\HasApiTokens;
 
 /**
  * @property int $id
+ * @property string $name
+ * @property string $email
  * @property Coach $coach
  */
 class User extends Authenticatable
@@ -59,11 +61,20 @@ class User extends Authenticatable
         return $this->hasMany(Product::class);
     }
 
-    public function prices(): HasManyThrough
+    public function prices()
     {
         return $this->hasManyThrough(related: Price::class, through: Product::class, secondKey: "priceable_id")
             ->where("priceable_type", Product::class)
-            ->join("collection_product", "collection_product.product_id", "=", "products.id");
+            ->where("locale", app()->getLocale())
+            ->select(
+                "collection_translations.name",
+                "collection_translations.collection_id",
+                "prices.attribute_data",
+                "prices.price",
+                "prices.priceable_id as meeting_id"
+            )
+            ->join("collection_product", "collection_product.product_id", "=", "products.id")
+            ->join("collection_translations", "collection_translations.collection_id", "=" , "collection_product.collection_id");
     }
 
     public function collections(): HasManyThrough
