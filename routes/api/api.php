@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CoachController;
+use App\Http\Controllers\FrontDependencyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,11 @@ Route::prefix('coach')
 //            ->middleware('auth:sanctum')
             ->name('register');
 
-//        Route::get('/getPage', [CoachController::class, 'index'])->name('getPage');
+    });
+
+Route::prefix("/front-dependency")
+    ->group(function (){
+
+        Route::get("/getMenu", [FrontDependencyController::class, "getMenu"]);
 
     });
