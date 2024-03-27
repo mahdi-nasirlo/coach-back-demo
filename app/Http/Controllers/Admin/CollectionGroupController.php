@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Attribute\Attribute;
-use App\Models\Attribute\AttributeGroup;
 use App\Models\CollectionGroup;
 use App\Services\CollectionGroupService;
 use Astrotomic\Translatable\Validation\RuleFactory;

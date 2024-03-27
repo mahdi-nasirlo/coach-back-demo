@@ -24,7 +24,7 @@ Route::get("/collection/get-all", [CollectionController::class, "getAll"]);
 
 Route::get("/collection/get-breadcrumb/{collection}", [CollectionController::class, "getBreadcrumb"]);
 
-Route::apiResource("/coach", CoachController::class)->except("destroy");
+Route::apiResource("/coach", CoachController::class)->except(["destroy", "store"]);
 
 Route::post("/coach/change-status/{coach}", [CoachController::class, "changeStatus"]);
 

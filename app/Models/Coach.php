@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string job_experience
  * @property string resume
  * @property string about_me
+ * @property User $user
  */
 class Coach extends Model
 {

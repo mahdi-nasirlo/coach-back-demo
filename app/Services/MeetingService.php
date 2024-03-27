@@ -4,15 +4,25 @@ namespace App\Services;
 
 use App\Enums\ProductStatusEnums;
 use App\Enums\ProductTypeEnums;
+use App\Models\Coach;
 use App\Models\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class MeetingService
 {
-    public function getMeetingRecord()
+
+    public Coach $coach;
+
+    public function __construct(Coach $coach)
     {
-        return auth()->user()->products()->firstOrCreate([
+        $this->coach = $coach;
+    }
+
+    public function getMeetingRecord(): Model
+    {
+        return $this->coach->user->products()->firstOrCreate([
             "user_id" => auth()->id(),
             "product_type" => ProductTypeEnums::MEET->value,
             "status" => ProductStatusEnums::DRAFT->value
@@ -27,10 +37,10 @@ class MeetingService
     public function updateVariants($variants): void
     {
 
-        $validated = Validator::make($variants, [
+        $validated = Validator::validate($variants, [
             "*.price" => "required|numeric|min:0",
             "*.collection_id" => "required|numeric|min:0"
-        ])->validate();
+        ]);
 
         $product = $this->getMeetingRecord();
 

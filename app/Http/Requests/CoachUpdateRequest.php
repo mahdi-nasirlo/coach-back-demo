@@ -9,7 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
-class CoachCreateRequest extends FormRequest
+class CoachUpdateRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -36,8 +36,8 @@ class CoachCreateRequest extends FormRequest
                 'regex:/^09(1[0-93[1-92[1-9])-?[0-9]{3}-?[0-9]{4}$/i'
             ],
             "about_me" => 'required|string|min:24',
-            "pricing.*.collection_id" => "required|numeric|exists:collections,id",
-            "pricing.*.price" => "required|numeric",
+            "prices.*.collection_id" => "required|numeric|exists:collections,id",
+            "prices.*.price" => "required|numeric",
             "resume" => "nullable|string|min:12",
             "job_experience" => "nullable|string|min:12",
             "education_record" => "nullable|string|min:12",
