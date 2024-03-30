@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CoachUpdateRequest;
 use App\Http\Resources\CoachInfoResource;
 use App\Models\Coach;
+use App\Models\TemporaryFile;
 use App\Services\MeetingService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -36,7 +37,6 @@ class CoachController extends Controller
         $coach->load(["user.prices"]);
 
         return $this->respondWithSuccess(new CoachInfoResource($coach), message: $coach->status == CoachStatusEnum::UNDONE);
-//        return $this->respondWithSuccess($coach, message: $coach->status == CoachStatusEnum::UNDONE);
     }
 
     /**
@@ -54,6 +54,26 @@ class CoachController extends Controller
         ]);
 
         $coach->update($coachData);
+
+        $tmpFile = TemporaryFile::query()
+            ->where("folder", $request->input("profile_image"))
+            ->first();
+
+        if ($tmpFile) {
+
+            $pathToFile = $tmpFile->absolutFilePath();
+
+            $coach->media()->delete();
+
+            $coach
+                ->addMedia($pathToFile)
+                ->withCustomProperties(['mime-type' => 'image/jpeg'])
+                ->preservingOriginal()
+                ->toMediaCollection();
+
+            $tmpFile->delete();
+
+        }
 
         (new MeetingService($coach))->updateVariants($request->input("prices"));
 
