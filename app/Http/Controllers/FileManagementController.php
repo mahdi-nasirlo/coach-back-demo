@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TemporaryFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class FileManagementController extends Controller
 {
@@ -23,7 +24,8 @@ class FileManagementController extends Controller
 
         $tmp = TemporaryFile::query()->create([
             'folder' => $time,
-            'filename' => $fileName
+            'filename' => $fileName,
+            'file_type' => $file->getClientOriginalExtension()
         ]);
 
         return $this->respondWithSuccess(["key" => $time]);
@@ -31,9 +33,17 @@ class FileManagementController extends Controller
 
     public function fetch(Request $request, string $filename)
     {
-        $tmp = TemporaryFile::query()->where("folder", $filename)->firstOrFail();
 
-        $file_path = storage_path("app/public/tmp/" . $tmp->folder . "/" . $tmp->filename);
+        $file = Media::findByUuid($filename);
+
+        if ($file) {
+            $file_path = $file->getPath();
+        } else {
+            $tmp = TemporaryFile::query()->where("folder", $filename)->firstOrFail();
+
+            $file_path = storage_path("app/public/tmp/" . $tmp->folder . "/" . $tmp->filename);
+        }
+
 
         return response()->file($file_path);
     }
