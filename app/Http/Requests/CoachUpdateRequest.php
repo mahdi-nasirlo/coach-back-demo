@@ -27,12 +27,12 @@ class CoachUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "profile_image" => "required|numeric", //|exists:temporary_files,folder
+            "profile_image" => "required",
             "name" => "required|string|max:125",
             'phone_number' => [
                 'required',
                 Rule::unique("coaches", "phone_number")
-                    ->ignore(auth()->user()->coach->id),
+                    ->ignore($this->coach),
                 'regex:/^09(1[0-93[1-92[1-9])-?[0-9]{3}-?[0-9]{4}$/i'
             ],
             "about_me" => 'required|string|min:24',

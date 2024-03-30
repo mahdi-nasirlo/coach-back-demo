@@ -24,16 +24,20 @@ class CoachInfoResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "phone_number" => $this->phone_number,
+            "profile_image" => $this->media()->orderByDesc("created_at")->first()?->uuid,
             "about_me" => $this->about_me,
             "job_experience" => $this->job_experience,
             "education_record" => $this->education_record,
             "resume_file" => $this->resume_file,
             "status" => $this->status,
-            "user" => $this->whenLoaded("user" ,fn() => [
+            "user" => $this->whenLoaded("user", fn() => [
                 "user_name" => $this->user->name,
                 "email" => $this->user->email
             ]),
-            "prices" => $this->whenLoaded("user", $this->user->prices)
+            "prices" => $this->whenLoaded(
+                "user",
+                $this->user->prices
+            )
         ];
     }
 

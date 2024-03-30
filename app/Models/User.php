@@ -16,6 +16,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $name
  * @property string $email
  * @property Coach $coach
+ * @property HasManyThrough $prices
  */
 class User extends Authenticatable
 {
@@ -61,7 +62,7 @@ class User extends Authenticatable
         return $this->hasMany(Product::class);
     }
 
-    public function prices()
+    public function prices(): HasManyThrough
     {
         return $this->hasManyThrough(related: Price::class, through: Product::class, secondKey: "priceable_id")
             ->where("priceable_type", Product::class)

@@ -6,6 +6,8 @@ use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int id
@@ -19,9 +21,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string about_me
  * @property User $user
  */
-class Coach extends Model
+class Coach extends Model implements HasMedia
 {
-    use Translatable, HasFactory;
+    use Translatable;
+    use HasFactory;
+    use InteractsWithMedia;
 
     public array $translatedAttributes = ["name", "education_record", "job_experience", "resume", "about_me"];
 
@@ -30,6 +34,11 @@ class Coach extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function profile()
+    {
+        return $this->media()->first();
     }
 
 }

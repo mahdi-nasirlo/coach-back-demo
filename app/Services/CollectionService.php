@@ -3,16 +3,32 @@
 namespace App\Services;
 
 use App\Models\Collection;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class CollectionService
 {
-    public function getCollectionWithChild(?int $collection_id, int $collection_group_id): EloquentCollection|array
+    public function getCollectionWithChild(?int $collection_id, int $collection_group_id)
     {
+
+        $productServices = new ProductServices();
+
+        $products = $productServices
+            ->coacheInfo()
+            ->inCollection($collection_group_id, $collection_id)
+            ->select(array_merge(
+                [
+                    "product_type"
+                ],
+                $productServices->meetingSelects
+            ))
+            ->get();
+
         return Collection::query()
+            ->with("translation")
             ->where("parent_id", $collection_id)
             ->where("collection_group_id", $collection_group_id)
-            ->get();
+            ->get()
+            ->concat($products);
+
     }
 
     public function getBreadcrumbAttribute(Collection $collection)
