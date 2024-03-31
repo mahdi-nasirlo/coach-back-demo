@@ -31,18 +31,16 @@ Route::prefix('/auth')
 
     });
 
-Route::prefix('coach')
-    ->name('coach.')
-    ->group(function () {
 
-        Route::post('/register', [CoachController::class, 'register'])
+Route::post('/coach/register', [CoachController::class, 'register'])
 //            ->middleware('auth:sanctum')
-            ->name('register');
+    ->name('register');
 
-    });
+Route::apiResource("/coach", CoachController::class);
+
 
 Route::prefix("/front-dependency")
-    ->group(function (){
+    ->group(function () {
 
         Route::get("/getMenu", [FrontDependencyController::class, "getMenu"]);
 

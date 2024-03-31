@@ -55,9 +55,14 @@ class MeetingService
 
             foreach ($validated as $key => $value) {
 
+                $collection = Collection::query()->find($value["collection_id"]);
+
                 $price = [
                     "price" => $value["price"],
-                    "attribute_data" => ["name" => Collection::query()->find($value["collection_id"])->name]
+                    "attribute_data" => [
+                        "collection_name" => $collection->name,
+                        "collection_id" => $collection->id
+                    ]
                 ];
 
                 $product->prices()->create($price);

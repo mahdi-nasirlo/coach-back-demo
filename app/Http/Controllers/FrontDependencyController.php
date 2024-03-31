@@ -25,7 +25,7 @@ class FrontDependencyController extends Controller
                 "submenu" => $item->collections?->map(fn($submenu) => [
                     "id" => $submenu->id,
                     "label" => $submenu->name,
-                    "path" => "#!",
+                    "path" => "/coaches/" . $submenu->id,
                 ])
             ]);
 
