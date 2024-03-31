@@ -12,8 +12,9 @@ class CollectionService
         $productServices = new ProductServices();
 
         $products = $productServices
-            ->coacheInfo()
             ->inCollection($collection_group_id, $collection_id)
+            ->coacheInfo()
+            ->query
             ->select(array_merge(
                 [
                     "product_type"
