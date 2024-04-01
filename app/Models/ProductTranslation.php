@@ -7,4 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class ProductTranslation extends Model
 {
     public $fillable = ["name", "description", "attribute_data"];
+
+    public $casts = ["attribute_data" => "json"];
 }

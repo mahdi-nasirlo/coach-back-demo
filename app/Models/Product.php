@@ -5,11 +5,14 @@ namespace App\Models;
 use App\Enums\ProductStatusEnums;
 use App\Enums\ProductTypeEnums;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
@@ -24,9 +27,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property User $user
  * @property ProductStatusEnums $product_type
  */
-class Product extends Model
+class Product extends Model implements HasMedia
 {
 
+    use InteractsWithMedia;
     use SoftDeletes;
     use Translatable;
 
@@ -37,6 +41,12 @@ class Product extends Model
     public $casts = [
         "product_type" => ProductTypeEnums::class
     ];
+
+    public function scopePhysical(Builder $query)
+    {
+        $query->where("product_type", ProductTypeEnums::PRODUCT->value)
+            ->where("shippable", true);
+    }
 
     public function user(): BelongsTo
     {

@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 class ProductServices
 {
+
+    public array $productTranslation;
     public array $meetingSelects;
 
     public Builder $query;
@@ -26,14 +28,25 @@ class ProductServices
             DB::raw("(CASE WHEN product_type='" . ProductTypeEnums::MEET->value . "' THEN coach_translations.`name` END) as coach_name")
         ];
 
-        $this->query = Product::query();
+        $this->productTranslation = [
+            "product_translations.name as product_name"
+        ];
+
+        $this->query = Product::withoutTrashed()->newQuery();
+    }
+
+    public function getTranslation()
+    {
+        $this->query
+            ->join("product_translations", "product_translations.product_id", "=", "products.id");
+
+        return $this;
     }
 
     public function coacheInfo(?int $collection_id = null): static
     {
         $this
             ->query
-//            ->hasManyThrough(related: Price::class, through: Product::class, secondKey: "priceable_id")
             ->leftJoin("coaches", function (JoinClause $join) {
                 $join->on("coaches.user_id", "=", "products.user_id");
                 $join->where("products.product_type", "=", ProductTypeEnums::MEET->value);
