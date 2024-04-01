@@ -6,6 +6,7 @@ use App\Enums\CoachStatusEnum;
 use App\Http\Requests\RegisterCoachRequest;
 use App\Http\Resources\CoachListResource;
 use App\Models\Coach;
+use App\Models\CollectionTranslation;
 use App\Services\ProductServices;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -19,12 +20,14 @@ class CoachController extends Controller
     public function index(Request $request, ProductServices $productServices)
     {
         $validate = $request->validate([
-            "collection_id" => "required|numeric|exists:collections,id"
+            "collection_slug" => "required|string|exists:collection_translations,slug"
         ]);
 
+        $collection_id = CollectionTranslation::query()->where("slug", $request->collection_slug)->first()->collection_id;
+        
         $coaches = $productServices
-            ->inCollection(collection_group_id: null, collection_id: $validate["collection_id"])
-            ->coacheInfo(collection_id: $validate["collection_id"])
+            ->inCollection(collection_group_id: null, collection_id: $collection_id)
+            ->coacheInfo(collection_id: $collection_id)
             ->query
             ->select(array_merge(
                 [

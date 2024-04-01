@@ -14,12 +14,14 @@ class CollectionService
         $products = $productServices
             ->inCollection($collection_group_id, $collection_id)
             ->coacheInfo()
+            ->getTranslation()
             ->query
             ->select(array_merge(
                 [
                     "product_type"
                 ],
-                $productServices->meetingSelects
+                $productServices->meetingSelects,
+                $productServices->productTranslation
             ))
             ->get();
 
