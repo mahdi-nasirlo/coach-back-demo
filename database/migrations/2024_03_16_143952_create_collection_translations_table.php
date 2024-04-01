@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('locale')->index();
             $table->string("name");
             $table->text("description")->nullable();
+            $table->string("slug");
+            $table->string("url")->nullable();
 
             $table->unique(['collection_id', 'locale']);
         });

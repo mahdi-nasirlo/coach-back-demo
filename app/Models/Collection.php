@@ -30,7 +30,7 @@ class Collection extends Model
 
     use NodeTrait, Translatable;
 
-    public array $translatedAttributes = ["name", "description"];
+    public array $translatedAttributes = ["name", "description", "slug", "url"];
 
     protected $casts = [
         'attribute_data' => "json",

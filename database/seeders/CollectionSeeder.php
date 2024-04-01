@@ -162,6 +162,16 @@ class CollectionSeeder extends Seeder
             ]
         ]);
 
+        Collection::query()->where("collection_group_id", 1)
+            ->get()
+            ->map(fn($item) => $item->update([
+                "en" => [
+                    "url" => "/coaches/"
+                ],
+                "fa" => [
+                    "url" => "/coaches/"
+                ]
+            ]));
         /**
          * collections
          */
