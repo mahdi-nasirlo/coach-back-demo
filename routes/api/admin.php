@@ -14,6 +14,10 @@ Route::group(["name" => "file-management.", "prefix" => "/file-management"], fun
 
     Route::get("{filename}", [FileManagementController::class, "fetch"])->name("fetch");
 
+    Route::post("/chunk/store", [FileManagementController::class, "chunkStore"]);
+
+    Route::post("/chunk/update", [FileManagementController::class, "chunkUpdate"]);
+
 });
 
 Route::apiResource("/collection-groups", CollectionGroupController::class);
