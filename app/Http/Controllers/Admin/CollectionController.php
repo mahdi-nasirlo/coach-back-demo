@@ -33,15 +33,16 @@ class CollectionController extends Controller
     public function getAll(Request $request): JsonResponse
     {
         $validate = $request->validate([
-            "collection_group_id" => "nullable|exists:collection_groups,id"
+            "collection_group_id" => "nullable|string|exists:collection_groups,id"
         ]);
 
         $collection = Collection::query()
             ->withTranslation()
-            ->when($validate["collection_group_id"], fn($builder) => $builder
+            ->when($request->has("collection_group_id"), fn($builder) => $builder
                 ->where("collection_group_id", $request->input("collection_group_id")))
             ->with(["group"])
-            ->get();
+            ->get()
+            ->groupBy('group.name');
 
         return $this->respondWithSuccess($collection);
     }

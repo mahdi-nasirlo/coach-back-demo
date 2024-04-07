@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CollectionController;
 use App\Http\Controllers\Admin\CollectionGroupController;
 use App\Http\Controllers\Admin\MeetingController;
 use App\Http\Controllers\Admin\PhysicalProductController;
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\FileManagementController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,3 +38,4 @@ Route::apiResource("/meeting", MeetingController::class);
 
 Route::apiResource("/physicalProduct", PhysicalProductController::class);
 
+Route::apiResource("/post", PostController::class);

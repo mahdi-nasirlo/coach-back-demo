@@ -19,6 +19,10 @@ class TemporaryFile extends Model
 
     public static array $imageTypes = ["png", "jpeg", "gif"];
 
+    public static array $videoTypes = ["mp4"];
+
+    public static array $audioTypes = ["mp3"];
+
     public function scopeImage(Builder $query): void
     {
         $query->whereIn("file_type", self::$imageTypes);
