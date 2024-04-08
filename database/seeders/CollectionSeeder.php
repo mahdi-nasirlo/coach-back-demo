@@ -166,10 +166,10 @@ class CollectionSeeder extends Seeder
             ->get()
             ->map(fn($item) => $item->update([
                 "en" => [
-                    "url" => "/coaches/"
+                    "url" => "coaches"
                 ],
                 "fa" => [
-                    "url" => "/coaches/"
+                    "url" => "coaches"
                 ]
             ]));
         /**

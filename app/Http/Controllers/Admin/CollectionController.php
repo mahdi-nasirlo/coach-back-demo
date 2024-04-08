@@ -63,6 +63,7 @@ class CollectionController extends Controller
             "%description%" => "nullable|string",
             "collection_group_id" => "required|exists:collection_groups,id",
             "image" => "nullable|string|max:256",
+            "url" => "required|string",
             "parent_id" => "nullable|exists:collections,id",
         ]);
 
