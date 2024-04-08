@@ -25,15 +25,17 @@ class PostCreateRequest extends FormRequest
             "price" => "required|string|min_digits:0",
             "pay_content" => "nullable|string",
             "content" => "required|string|min:24",
-            "blog_category_id" => "required|exists:collections,id",
+            "blog_category_id" => "required|array",
+            "blog_category_id.*.value" => "required|exists:collections,id",
+            "should_pay" => "required|boolean",
             "image" => [
-                "required" ,
+                "required",
                 "exists:temporary_files,folder",
 //                Rule::in(TemporaryFile::$imageTypes)
             ],
             "attachment" => ["array"],
             "attachment.*" => [
-                "required" ,
+                "required",
                 "exists:temporary_files,folder",
 //                Rule::in(array_merge(
 //                    TemporaryFile::$imageTypes,

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CoachController;
 use App\Http\Controllers\FrontDependencyController;
+use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -45,3 +46,5 @@ Route::prefix("/front-dependency")
         Route::get("/getMenu", [FrontDependencyController::class, "getMenu"]);
 
     });
+
+Route::apiResource("/post", PostController::class)->only(["show", "index"]);
