@@ -89,8 +89,8 @@ class FileManagementController extends Controller
             File::move($targetFile, $finalFile);
 
             TemporaryFile::query()->create([
-                'folder' => $filename,
-                'filename' => $request->query("patch"),
+                'filename' => $filename,
+                'folder' => $request->query("patch"),
                 'file_type' => "png"
             ]);
         }
